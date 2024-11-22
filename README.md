@@ -2,26 +2,17 @@
 <img src="./assets/images/dtlogo.png" alt="Duckietown Logo" width="50%">
 </p>
 
-# **Learning Experience (LX): <LX_TITLE_HERE>**
+# **Learning Experience (LX): lx-estimation**
 
 # About these activities
 
-<DESCRIPTION_HERE>
+This is a learning experience about state estimation. 
 
-In this learning experience, you will ... **TODO: Describe the LX activities and outcome here**
-
-This learning experience is provided by the Duckietown team and can be run on Duckiebots. Visit us at the 
-[Duckietown Website](https://www.duckietown.com) for more learning materials, documentation, and demos.
-
-For guided setup instructions, lecture content, and more related to this LX, see **TODO: Add course link here**.
-
-## Grading challenge
-
-**TODO: Add optional challenge link or remove the `Grading challenge` section**
+In this learning experience, you will implement some toy examples of a Kalman filter 
+and a particle filter, and then finally develop a histogram filter for the robot to use to 
+estimate its position in the lane. 
 
 # Instructions
-
-**TODO: Update Step 1. to match your learner setup**
 
 **NOTE:** All commands below are intended to be executed from the root directory of this exercise (i.e., the directory containing this README).
 
@@ -140,4 +131,4 @@ dts code vnc -R [ROBOT_NAME]
 where `[ROBOT_NAME]` could be the real or the virtual robot (use whichever you ran the `dts code workbench` and `dts code build` command with).
 
 
-Now you can proceed to the [first notebook](ADD_LINK_TO_NOTEBOOK).
+Now you can proceed to the [first notebook](notebooks/01-kalman-filter/kalman-filter.ipynb).
