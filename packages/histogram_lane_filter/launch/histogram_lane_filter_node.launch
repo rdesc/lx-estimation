@@ -25,7 +25,6 @@
      <include file="$(find lane_control)/launch/lane_controller_node.launch">
           <arg name="veh" value="$(arg veh)"/>
           <arg name="param_file_name" value="default"/>
-          <arg name="traffic_mode" value="$(arg traffic_mode)"/>
      </include>
 
     <!-- Publications -->

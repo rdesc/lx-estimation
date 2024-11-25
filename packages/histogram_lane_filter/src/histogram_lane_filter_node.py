@@ -15,7 +15,7 @@ from dt_computer_vision.camera import CameraModel
 from dt_computer_vision.camera.homography import Homography, HomographyToolkit
 from dt_computer_vision.ground_projection import GroundProjector
 
-
+import cv2
 from solution.lane_filter import LaneFilterHistogram
 from sensor_msgs.msg import Image, CompressedImage, CameraInfo
 import os
@@ -43,6 +43,8 @@ class HistogramLaneFilterNode(DTROS):
 
     Publishers:
         ~lane_pose (:obj:`LanePose`): The computed lane pose estimate
+        ~segments_img (:obj:`Image`): The detected segments
+        ~projected_segments_img (:obj:`Image`): The ground projected segments
         ~belief_img (:obj:`Image`): A visualization of the belief histogram as an image
 
     """
@@ -89,6 +91,14 @@ class HistogramLaneFilterNode(DTROS):
 
         self.pub_belief_img = rospy.Publisher(
             "~belief_img", Image, queue_size=1, dt_topic_type=TopicType.DEBUG
+        )
+
+        self.pub_segments_img = rospy.Publisher(
+            "~segments_img", Image, queue_size=1, dt_topic_type=TopicType.DEBUG
+        )
+
+        self.pub_projected_segments_img = rospy.Publisher(
+            "~projected_segments_img", Image, queue_size=1, dt_topic_type=TopicType.DEBUG
         )
 
 
@@ -149,8 +159,6 @@ class HistogramLaneFilterNode(DTROS):
         self.left_encoder_ticks_delta = 0
         self.right_encoder_ticks_delta = 0
 
-        self.publishEstimate(self.last_encoder_stamp)
-
     def cbImage(self, img_msg):
         """Callback to process the segments
 
@@ -200,6 +208,14 @@ class HistogramLaneFilterNode(DTROS):
         # Create belief image and publish it
         belief_img = self.bridge.cv2_to_imgmsg(np.array(255 * self.filter.belief).astype("uint8"), "mono8")
         self.pub_belief_img.publish(belief_img)
+        segments_img = self.bridge.cv2_to_imgmsg(self.filter.image_w_dets)
+        self.pub_segments_img.publish(segments_img)
+        projected_segments_img = self.bridge.cv2_to_imgmsg(cv2.cvtColor(self.filter.image_w_segs_rgb,cv2.COLOR_BGR2RGB))
+        self.pub_projected_segments_img.publish(projected_segments_img)
+
+
+
+
 
     def loginfo(self, s):
         rospy.loginfo("[%s] %s" % (self.node_name, s))

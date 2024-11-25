@@ -161,8 +161,8 @@ class LaneFilterHistogram:
                 "normals": detections.normals.tolist(),
                 "color": self.color_ranges[color].representative
             }
-        #image_w_dets = draw_segments(img_cropped, {color_ranges["yellow"]: color_detections[0]})
-        #image_w_dets = draw_segments(image_w_dets, {color_ranges["white"]: color_detections[1]})
+        image_w_dets = draw_segments(img_cropped, {self.color_ranges["yellow"]: color_detections[0]})
+        self.image_w_dets = draw_segments(image_w_dets, {self.color_ranges["white"]: color_detections[1]})
         return lines
 
     def lines_to_projected_segments(self, lines):
@@ -193,8 +193,8 @@ class LaneFilterHistogram:
                 grounded_segments.append((grounded_p0, grounded_p1))
 
             colored_segments[self.colors[color]] = grounded_segments
-        #image_w_segs = debug_image(colored_segments, (400, 400), background_image=grid)
-        #image_w_segs_rgb = image_w_segs[:, :, [2, 1, 0]]
+        image_w_segs = debug_image(colored_segments, (400, 400), background_image=grid)
+        self.image_w_segs_rgb = image_w_segs[:, :, [2, 1, 0]]
         return segments
 
     def initialize(self):
